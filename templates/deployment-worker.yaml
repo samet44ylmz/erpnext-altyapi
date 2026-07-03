@@ -21,6 +21,12 @@ spec:
         env:
         - name: MARIADB_HOST
           value: "mariadb"
+        - name: REDIS_CACHE
+          value: "redis://redis:6379"
+        - name: REDIS_QUEUE
+          value: "redis://redis:6379"
+        - name: REDIS_SOCKETIO
+          value: "redis://redis:6379"
         volumeMounts:
         - name: sites-storage
           mountPath: /home/frappe/frappe-bench/sites
