@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: frappe/erpnext-nginx:v14.65.1
+        image: frappe/erpnext-nginx:version-14
         env:
         - name: FRAPPE_PY
           value: "erpnext-app:8000"
