@@ -16,6 +16,7 @@ spec:
       containers:
       - name: worker
         image: frappe/erpnext:version-14
+        command: ["bench"]
         args: ["worker"]
         env:
         - name: MARIADB_HOST
