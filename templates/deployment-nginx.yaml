@@ -24,7 +24,7 @@ spec:
         - name: SOCKETIO
           value: "erpnext-worker:9000"
         - name: FRAPPE_SITE_NAME_HEADER
-          value: "$host"
+          value: "erpnext-dev.apps.ocp.local"
         - name: UPSTREAM_REAL_IP_ADDRESS
           value: "127.0.0.1"
         - name: UPSTREAM_REAL_IP_HEADER
