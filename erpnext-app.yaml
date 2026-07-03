@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: frappe/erpnext:v14.65.1
+        image: frappe/erpnext:version-14
         env:
         - name: MARIADB_HOST
           value: "mariadb"
