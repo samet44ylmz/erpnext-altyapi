@@ -9,7 +9,7 @@ spec:
       restartPolicy: OnFailure
       containers:
       - name: create-site
-        image: frappe/erpnext:v14.65.1
+        image: frappe/erpnext:version-14
         command: ["bash", "-c"]
         args:
           - >
