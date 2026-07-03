@@ -13,11 +13,11 @@ spec:
       labels:
         app: erpnext-worker
     spec:
-      containers:
+     containers:
       - name: worker
         image: {{ .Values.images.erpnext }}
-        command: ["bench"]
-        args: ["worker"]
+        command: ["gunicorn"]
+        args: ["--bind", "0.0.0.0:8000", "--workers", "2", "--threads", "4", "--timeout", "120", "frappe.app:application"]
         ports:
         - containerPort: 8000
         env:
