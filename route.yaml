@@ -7,7 +7,7 @@ spec:
   host: erpnext-dev.apps.ocp.local
   to:
     kind: Service
-    name: erpnext-app
+    name: erpnext-nginx  
     weight: 100
   port:
-    targetPort: 8000
+    targetPort: 8080    
