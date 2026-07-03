@@ -13,7 +13,7 @@ spec:
       labels:
         app: erpnext-worker
     spec:
-     containers:
+      containers:
       - name: worker
         image: {{ .Values.images.erpnext }}
         command: ["gunicorn"]
