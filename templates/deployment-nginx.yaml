@@ -21,6 +21,12 @@ spec:
         env:
         - name: BACKEND
           value: "erpnext-worker:8000"
+        - name: SOCKETIO
+          value: "erpnext-worker:9000"
+        - name: UPSTREAM_REAL_IP_ADDRESS
+          value: "127.0.0.1"
+        - name: FRAPPE_SITE_NAME_HEADER
+          value: "$host"
         volumeMounts:
         - name: sites-storage
           mountPath: /home/frappe/frappe-bench/sites
