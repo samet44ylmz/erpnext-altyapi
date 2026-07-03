@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-erpnext-site
+  namespace: erpnext
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+      - name: fix-permissions
+        image: {{ .Values.images.erpnext }}
+        command: ["/bin/bash", "-c", "chown -R 1000:1000 /home/frappe/frappe-bench/sites"]
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+        - name: sites-storage
+          mountPath: /home/frappe/frappe-bench/sites
+      containers:
+      - name: create-site
+        image: {{ .Values.images.erpnext }}
+        command: ["bash", "-c"]
+        args: 
+          - "echo -e 'frappe\nerpnext' > /home/frappe/frappe-bench/sites/apps.txt && bench new-site erpnext-dev.apps.ocp.local --mariadb-root-password {{ .Values.mariadb.rootPassword }} --admin-password admin123 --no-mariadb-socket && bench --site erpnext-dev.apps.ocp.local install-app erpnext"
+        volumeMounts:
+        - name: sites-storage
+          mountPath: /home/frappe/frappe-bench/sites
+      volumes:
+      - name: sites-storage
+        persistentVolumeClaim:
+          claimName: erpnext-sites-pvc
