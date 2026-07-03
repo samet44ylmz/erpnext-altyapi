@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: create-erpnext-site-v3
+  name: create-erpnext-site-v4
   namespace: erpnext
 spec:
   template:
