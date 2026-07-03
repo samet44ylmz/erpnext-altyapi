@@ -1,30 +1,62 @@
 apiVersion: batch/v1
+
 kind: Job
+
 metadata:
+
   name: create-erpnext-site-v4
+
   namespace: erpnext
+
 spec:
+
   template:
+
     spec:
+
       restartPolicy: OnFailure
+
       containers:
+
       - name: create-site
+
         image: frappe/erpnext:version-14
+
         command: ["bash", "-c"]
+
         args:
+
           - >
+
+            echo -e "frappe\nerpnext" > /home/frappe/frappe-bench/sites/apps.txt &&
+
             bench new-site erpnext-dev.apps.ocp.local
+
             --mariadb-root-password prime
+
             --admin-password admin123
+
             --no-mariadb-socket
+
             && bench --site erpnext-dev.apps.ocp.local install-app erpnext
+
         env:
+
         - name: MARIADB_HOST
+
           value: "mariadb"
+
         volumeMounts:
+
         - name: sites-data
+
           mountPath: /home/frappe/frappe-bench/sites
+
       volumes:
+
       - name: sites-data
+
         persistentVolumeClaim:
+
           claimName: erpnext-sites-pvc
+
