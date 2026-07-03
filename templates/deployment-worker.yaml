@@ -18,6 +18,8 @@ spec:
         image: {{ .Values.images.erpnext }}
         command: ["bench"]
         args: ["worker"]
+        ports:
+        - containerPort: 8000
         env:
         - name: MARIADB_HOST
           value: "mariadb"
@@ -34,3 +36,15 @@ spec:
       - name: sites-storage
         persistentVolumeClaim:
           claimName: erpnext-sites-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: erpnext-worker
+  namespace: erpnext
+spec:
+  ports:
+  - port: 8000
+    targetPort: 8000
+  selector:
+    app: erpnext-worker
