@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: erpnext-app
+  namespace: erpnext
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: erpnext-app
+  template:
+    metadata:
+      labels:
+        app: erpnext-app
+    spec:
+      containers:
+      - name: backend
+        image: frappe/erpnext:v14.65.1
+        env:
+        - name: MARIADB_HOST
+          value: "mariadb"
+        - name: REDIS_CACHE
+          value: "redis:6379"
+        - name: REDIS_QUEUE
+          value: "redis:6379"
+        - name: REDIS_SOCKETIO
+          value: "redis:6379"
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: sites-data
+          mountPath: /home/frappe/frappe-bench/sites
+      volumes:
+      - name: sites-data
+        persistentVolumeClaim:
+          claimName: erpnext-sites-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: erpnext-app
+  namespace: erpnext
+spec:
+  selector:
+    app: erpnext-app
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
