@@ -21,16 +21,14 @@ spec:
         image: {{ .Values.images.erpnext }}
         command: ["bash", "-c"]
         args: 
-          - "echo -e 'frappe\nerpnext' > /home/frappe/frappe-bench/sites/apps.txt && bench new-site erpnext-dev.apps.ocp.local --mariadb-root-password {{ .Values.mariadb.rootPassword }} --admin-password admin123 --no-mariadb-socket && bench --site erpnext-dev.apps.ocp.local install-app erpnext"
-        env:
-        - name: MARIADB_HOST
-          value: "mariadb"
-        - name: REDIS_CACHE
-          value: "redis://redis:6379"
-        - name: REDIS_QUEUE
-          value: "redis://redis:6379"
-        - name: REDIS_SOCKETIO
-          value: "redis://redis:6379"
+          - >
+            echo -e 'frappe\nerpnext' > /home/frappe/frappe-bench/sites/apps.txt &&
+            bench set-config -g db_host mariadb &&
+            bench set-config -g redis_cache redis://redis:6379 &&
+            bench set-config -g redis_queue redis://redis:6379 &&
+            bench set-config -g redis_socketio redis://redis:6379 &&
+            bench new-site erpnext-dev.apps.ocp.local --force --mariadb-root-password {{ .Values.mariadb.rootPassword }} --admin-password admin123 --no-mariadb-socket &&
+            bench --site erpnext-dev.apps.ocp.local install-app erpnext
         volumeMounts:
         - name: sites-storage
           mountPath: /home/frappe/frappe-bench/sites
