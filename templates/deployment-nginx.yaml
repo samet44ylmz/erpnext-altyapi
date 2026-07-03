@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: erpnext-nginx
+  namespace: erpnext
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: erpnext-nginx
+  template:
+    metadata:
+      labels:
+        app: erpnext-nginx
+    spec:
+      containers:
+      - name: nginx
+        image: {{ .Values.images.nginx }}
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: sites-storage
+          mountPath: /home/frappe/frappe-bench/sites
+      volumes:
+      - name: sites-storage
+        persistentVolumeClaim:
+          claimName: erpnext-sites-pvc
