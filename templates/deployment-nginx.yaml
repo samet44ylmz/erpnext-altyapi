@@ -17,7 +17,10 @@ spec:
       - name: nginx
         image: {{ .Values.images.nginx }}
         ports:
-        - containerPort: 80
+        - containerPort: 8080
+        env:
+        - name: BACKEND
+          value: "erpnext-worker:8000"
         volumeMounts:
         - name: sites-storage
           mountPath: /home/frappe/frappe-bench/sites
