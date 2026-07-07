@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: erpnext-nginx-config
+  namespace: erpnext
+data:
+  default.conf: |
+    server {
+        listen 8080;
+        server_name erpnext-dev.apps.ocp.local;
+        location /assets/ {
+            alias /usr/share/nginx/html/assets/;
+        }
+        location / {
+            proxy_pass http://erpnext-worker:8000;
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+    }
