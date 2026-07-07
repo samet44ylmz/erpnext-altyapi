@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: erpnext-nginx
+  namespace: erpnext
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: erpnext-nginx
+  template:
+    metadata:
+      labels:
+        app: erpnext-nginx
+    spec:
+      initContainers:
+      - name: copy-assets
+        image: frappe/erpnext:v15.30.0
+        imagePullPolicy: IfNotPresent
+        command:
+          - sh
+          - -c
+          - cp -rL /home/frappe/frappe-bench/apps/frappe/frappe/public /assets/frappe && cp -rL /home/frappe/frappe-bench/apps/erpnext/erpnext/public /assets/erpnext
+        volumeMounts:
+        - mountPath: /assets
+          name: assets
+
+      containers:
+      - name: nginx
+        image: frappe/erpnext-nginx:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: BACKEND
+          value: erpnext-worker:8000
+        - name: SOCKETIO
+          value: erpnext-worker:9000
+        - name: FRAPPE_SITE_NAME_HEADER
+          value: erpnext-dev.apps.ocp.local
+        - name: UPSTREAM_REAL_IP_ADDRESS
+          value: 127.0.0.1
+        - name: UPSTREAM_REAL_IP_HEADER
+          value: X-Forwarded-For
+        - name: UPSTREAM_REAL_IP_RECURSIVE
+          value: "off"
+        volumeMounts:
+        - mountPath: /home/frappe/frappe-bench/sites
+          name: sites-storage
+        - mountPath: /usr/share/nginx/html/assets
+          name: assets
+        - mountPath: /etc/nginx/conf.d
+          name: nginx-config
+
+      volumes:
+      - name: sites-storage
+        persistentVolumeClaim:
+          claimName: erpnext-sites-pvc
+      - name: nginx-config
+        configMap:
+          name: erpnext-nginx-config
+      - name: assets
+        emptyDir: {}
