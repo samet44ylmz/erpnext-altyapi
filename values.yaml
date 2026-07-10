@@ -1,14 +1,12 @@
-# ERPNext v14.65.1 — OpenShift / GitOps values (chart: erpnext 8.0.65)
+# ERPNext v14.65.1 — OpenShift / GitOps (resmi chart: erpnext 8.0.65)
 image:
   repository: frappe/erpnext
   tag: v14.65.1
   pullPolicy: IfNotPresent
 
-# OpenShift: chart kendi SA'sını yaratmasın; anyuid verdiğimiz 'default' SA kullanılsın
 serviceAccount:
   create: false
 
-# Paylaşılan sites volümü — local disk RWO (worker1), chart default RWX'i ezmemiz şart
 persistence:
   worker:
     enabled: true
@@ -19,7 +17,6 @@ persistence:
   logs:
     enabled: false
 
-# Veritabanı: düz MariaDB StatefulSet (Bitnami subchart DEĞİL)
 mariadb-sts:
   enabled: true
   rootPassword: "prime"
@@ -33,15 +30,11 @@ mariadb-sts:
     character-set-server=utf8mb4
     collation-server=utf8mb4_unicode_ci
 
-# Bitnami mariadb subchart ve alias'ı kapat (image'ları bitnamilegacy'ye taşındı, güvenilmez)
 mariadb-subchart:
   enabled: false
 mariadb:
   enabled: false
 
-# Redis: valkey default (cache+queue) — kalıcılık gerekmez, olduğu gibi bırak
-
-# İlk sync'te site'ı yarat + erpnext'i kur
 jobs:
   createSite:
     enabled: true
