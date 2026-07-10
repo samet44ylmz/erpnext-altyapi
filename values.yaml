@@ -39,7 +39,7 @@ mariadb:
     enabled: true
     forceCreate: false
     siteName: "erpnext.apps.ocp.local"
-    adminPassword: "DEGISTIR_beni"
+    adminPassword: "prime"
     installApps:
       - erpnext
     dbType: mariadb
