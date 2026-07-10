@@ -1,9 +1,8 @@
 # ERPNext v14.65.1 — OpenShift / GitOps (resmi chart: erpnext 8.0.65)
 image:
-  repository: frappe/erpnext
+  repository: image-registry.openshift-image-registry.svc:5000/erpnext/erpnext-tevkifat
   tag: v14.65.1
   pullPolicy: IfNotPresent
-
 serviceAccount:
   create: false
 
