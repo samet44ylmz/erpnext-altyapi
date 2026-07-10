@@ -1,3 +1,5 @@
+mariadb:
+  rootPassword: "prime"
 images:
   erpnext: "frappe/erpnext:v14.92.12"
   nginx: "frappe/erpnext:v14.92.12"
