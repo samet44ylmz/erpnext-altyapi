@@ -34,8 +34,7 @@ mariadb-subchart:
   enabled: false
 mariadb:
   enabled: false
-
-jobs:
+  jobs:
   createSite:
     enabled: true
     forceCreate: false
@@ -44,7 +43,8 @@ jobs:
     installApps:
       - erpnext
     dbType: mariadb
-    nginx:
+
+nginx:
   defaultTopologySpread:
     maxSkew: 1
     topologyKey: kubernetes.io/hostname
