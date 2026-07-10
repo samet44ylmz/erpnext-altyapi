@@ -2,7 +2,7 @@
 image:
   repository: image-registry.openshift-image-registry.svc:5000/erpnext/erpnext-tevkifat
   tag: v14.65.1
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 serviceAccount:
   create: false
 
