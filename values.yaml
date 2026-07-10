@@ -1,5 +1,5 @@
 mariadb:
   rootPassword: "prime"
 images:
-  erpnext: "frappe/erpnext:v14.100.0"
-  nginx: "frappe/erpnext:v14.100.0"
+  erpnext: "frappe/erpnext:v14.65.1"
+  nginx: "frappe/erpnext:v14.65.1"
